@@ -19,6 +19,10 @@ Tools and sources: PACHECO 4.8
 Three or more runs of `./bar given`, including one thread:
 
 ```
+mode=given threads=1 rounds=1 bad=0 firstbad=-1 checksum=ok correct=yes deadlock=no time=0.0002 cpu=0.0001
+mode=given threads=1 rounds=2000 bad=0 firstbad=-1 checksum=ok correct=yes deadlock=no time=0.0017 cpu=0.0005
+mode=given threads=4 rounds=2000 bad=23815 firstbad=0 checksum=ok correct=no deadlock=no time=0.0031 cpu=0.0094
+mode=given threads=8 rounds=2000 bad=111718 firstbad=0 checksum=ok correct=no deadlock=no time=0.0063 cpu=0.0332
 ```
 
 **S2.1** Name the mechanism: which claim in `given.c`'s header is false, and
