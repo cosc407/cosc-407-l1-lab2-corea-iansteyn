@@ -55,6 +55,7 @@ The second half is what is being violated.
 
 **S2.3** Minimality: what breaks if you do less, what it costs if you do more.
 
+I think the solution is to use two turnstiles as detailed in LBS 3.7.
 
 
 ## S3 — the measurement · 30 marks
