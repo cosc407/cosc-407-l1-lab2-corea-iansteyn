@@ -29,7 +29,13 @@ mode=given threads=8 rounds=2000 bad=111718 firstbad=0 checksum=ok correct=no de
 what is actually happening? State the barrier's invariant and say which half of
 it this code does not keep.
 
-The claim that the barrier is reusable, and that this is verifiable because the threads are synchronized after one round, is false. The way `given.c` implements it, the `counter` is never reset, which means that from the second round onwards the barrier will not block and the threads will start to comlete rounds out of sync.
+The claim that the barrier is reusable, and that this is verifiable because the threads are synchronized after one round, is false. The way `given.c` implements it, the `counter` is never reset, which means that from the second round onwards the barrier will not block and the threads will start to complete rounds out of sync.
+
+The invariant of the barrier is that
+1. when wait() returns to any thread, all threads must have already arrived at the barrier
+2. It must be reusable; that is, all threads must have completed their work in round `r` before any of them can proceed to round `r+1`
+
+The second half is what is being violated.
 
 **S2.2** Prove it, in the form your `BRIEF.md` requires.
 
@@ -37,7 +43,7 @@ REPLACE THIS LINE
 
 **S2.3** Minimality: what breaks if you do less, what it costs if you do more.
 
-REPLACE THIS LINE
+
 
 ## S3 — the measurement · 30 marks
 
