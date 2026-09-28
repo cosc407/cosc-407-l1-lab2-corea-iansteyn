@@ -80,7 +80,10 @@ static void destroy(void *p)
 {
     /* TODO: release what create() took. Every thread has been joined by the
      *       time this is called. */
-    (void)p;
+    bar_t *b = (bar_t *)p;
+    pthread_mutex_destroy(&b->lock);
+    pthread_cond_destroy(&b->cv);
+    free(b);
 }
 
 const bar_ops_t bar_fixed = { "fixed", create, wait_, destroy };
