@@ -19,14 +19,32 @@
 
 /* TODO: the barrier's state. What has to be shared between the threads, and
  *       what does each thread have to remember for itself? */
+typedef struct {
+    pthread_mutex_t lock;
+    pthread_cond_t  cv;
+    int             n;        /* how many threads have to arrive */
+    int             count;    /* how many have arrived           */
+} bar_t;
 
 static void *create(int nthreads)
 {
     /* TODO: allocate it, initialise everything, and return it. Anything a
      *       thread might lock or wait on has to be ready BEFORE the first
      *       thread can reach it. */
-    (void)nthreads;
-    return NULL;
+    bar_t *b = malloc(sizeof *b);
+    if (b == NULL) {
+        return NULL;
+    }
+    if (pthread_mutex_init(&b->lock, NULL) != 0 ||
+        pthread_cond_init(&b->cv, NULL) != 0) {
+        fprintf(stderr, "barrier init failed\n");
+        free(b);
+        return NULL;
+    }
+    b->n     = nthreads;
+    b->count = 0;
+    return b;
+
 }
 
 static void wait_(void *p)
