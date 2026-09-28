@@ -60,7 +60,8 @@ static void wait_(void *p)
 
     b->count++;
     if (b->count == b->n) {
-        /* last one in: let everybody go */
+        /* last one in: reset the count and let everybody go */
+        b->count = 0;
         pthread_cond_broadcast(&b->cv);
     } else {
         while (b->count < b->n) {
