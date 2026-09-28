@@ -39,7 +39,19 @@ The second half is what is being violated.
 
 **S2.2** Prove it, in the form your `BRIEF.md` requires.
 
-REPLACE THIS LINE
+|   | thread 1                                                                     | thread 2                                 |
+| - | --------------------------------------------------------------------------- | ---------------------------------------- |
+| 1 | `//arrives at barrier in round r`                                           |                           |
+| 2 | `//increments counter`                                                      | `//arrives at barrier in round r`                |
+| 3 | `//not all threads have arrived (counter < n), so waits`                    | `//increments counter`            |
+| 4 | `...`                                                                       | `//sees that all threads have arrived (counter=n) and releases them` |
+| 5 | `//Does some work in round r`                                               | `...`             |..
+| 6 | `...`                                                                       | `...` |
+| 7 | `//arrives at barrier in round r+1`                                         | `...` |
+| 8 | `//increments counter`                                                      | `//still working on round r stuff` |
+| 9 | `//not all threads have arrived, but counter is now >n, so no need to wait` | `...` |
+| 10 | `//proceeds to do work in round r+1 before thread 2 has arrived`           | `...` |
+
 
 **S2.3** Minimality: what breaks if you do less, what it costs if you do more.
 
