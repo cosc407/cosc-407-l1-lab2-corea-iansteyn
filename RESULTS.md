@@ -29,7 +29,7 @@ mode=given threads=8 rounds=2000 bad=111718 firstbad=0 checksum=ok correct=no de
 what is actually happening? State the barrier's invariant and say which half of
 it this code does not keep.
 
-REPLACE THIS LINE
+The claim that the barrier is reusable, and that this is verifiable because the threads are synchronized after one round, is false. The way `given.c` implements it, the `counter` is never reset, which means that from the second round onwards the barrier will not block and the threads will start to comlete rounds out of sync.
 
 **S2.2** Prove it, in the form your `BRIEF.md` requires.
 
