@@ -1,15 +1,15 @@
 # Lab 2 results — sealed core
 
-Name:  REPLACE THIS LINE
-Student number:  REPLACE THIS LINE
-Lab section:  REPLACE THIS LINE
-Core:  REPLACE THIS LINE — the letter on BRIEF.md
-Machine:  REPLACE THIS LINE
-Cores:  REPLACE THIS LINE — an integer
+Name: Ian Steyn
+Student number: 12371399
+Lab section: L01
+Core: A
+Machine: Personal laptop running Docker
+Cores: 8
 
 ## Tools and sources
 
-Tools and sources: REPLACE THIS LINE
+Tools and sources: PACHECO 4.8
 
 > Mandatory, even if it says "none". **No AI in the lab, at all** — see the
 > README. Missing declaration: zero until you supply one. False one: misconduct.
