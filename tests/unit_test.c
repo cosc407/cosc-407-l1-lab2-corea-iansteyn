@@ -185,12 +185,19 @@ Test(alt, reusable_across_several_rounds, .timeout = BAR_TIMEOUT)
  * happen at exactly one thread. It is not the same answer as above. */
 Test(alt, single_thread, .timeout = BAR_TIMEOUT)
 {
-    cr_assert_fail("TODO: write this case -- see the worked example above");
+    void *bar = bar_alt.create(1);
+    int finished = expect_stuck(&bar_alt, bar, 1);
+    cr_assert_lt(finished, 0,
+                 "bar_alt deadlocked on one thread");
 }
 
 /* TODO: more_threads_than_cores -- same idea as the worked example, at a
  * higher thread count. */
 Test(alt, more_threads_than_cores, .timeout = BAR_TIMEOUT_SLOW)
 {
-    cr_assert_fail("TODO: write this case -- see the worked example above");
+    void *bar = bar_alt.create(16);
+    int finished = expect_stuck(&bar_alt, bar, 16);
+    // cr_assert_lt(finished, 0,
+    //              "bar_alt deadlocked on one thread");
+    cr_assert_fail("i don't know how to do this bro");
 }
