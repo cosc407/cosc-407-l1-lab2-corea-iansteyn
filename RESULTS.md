@@ -1,15 +1,15 @@
 # Lab 2 results — sealed core
 
-Name:  REPLACE THIS LINE
-Student number:  REPLACE THIS LINE
-Lab section:  REPLACE THIS LINE
-Core:  REPLACE THIS LINE — the letter on BRIEF.md
-Machine:  REPLACE THIS LINE
-Cores:  REPLACE THIS LINE — an integer
+Name: Ian Steyn
+Student number: 12371399
+Lab section: L01
+Core: A
+Machine: Personal laptop running Docker
+Cores: 8
 
 ## Tools and sources
 
-Tools and sources: REPLACE THIS LINE
+Tools and sources: PACHECO 4.8
 
 > Mandatory, even if it says "none". **No AI in the lab, at all** — see the
 > README. Missing declaration: zero until you supply one. False one: misconduct.
@@ -19,21 +19,44 @@ Tools and sources: REPLACE THIS LINE
 Three or more runs of `./bar given`, including one thread:
 
 ```
+mode=given threads=1 rounds=1 bad=0 firstbad=-1 checksum=ok correct=yes deadlock=no time=0.0002 cpu=0.0001
+mode=given threads=1 rounds=2000 bad=0 firstbad=-1 checksum=ok correct=yes deadlock=no time=0.0017 cpu=0.0005
+mode=given threads=4 rounds=2000 bad=23815 firstbad=0 checksum=ok correct=no deadlock=no time=0.0031 cpu=0.0094
+mode=given threads=8 rounds=2000 bad=111718 firstbad=0 checksum=ok correct=no deadlock=no time=0.0063 cpu=0.0332
 ```
 
 **S2.1** Name the mechanism: which claim in `given.c`'s header is false, and
 what is actually happening? State the barrier's invariant and say which half of
 it this code does not keep.
 
-REPLACE THIS LINE
+The claim that the barrier is reusable, and that this is verifiable because the threads are synchronized after one round, is false. The way `given.c` implements it, the `counter` is never reset, which means that from the second round onwards the barrier will not block and the threads will start to complete rounds out of sync.
+
+The invariant of the barrier is that
+1. when wait() returns to any thread, all threads must have already arrived at the barrier
+2. It must be reusable; that is, all threads must have completed their work in round `r` before any of them can proceed to round `r+1`
+
+The second half is what is being violated.
 
 **S2.2** Prove it, in the form your `BRIEF.md` requires.
 
-REPLACE THIS LINE
+|   | thread 1                                                                     | thread 2                                 |
+| - | --------------------------------------------------------------------------- | ---------------------------------------- |
+| 1 | `//arrives at barrier in round r`                                           |                           |
+| 2 | `//increments counter`                                                      | `//arrives at barrier in round r`                |
+| 3 | `//not all threads have arrived (counter < n), so waits`                    | `//increments counter`            |
+| 4 | `...`                                                                       | `//sees that all threads have arrived (counter=n) and releases them` |
+| 5 | `//Does some work in round r`                                               | `...`             |..
+| 6 | `...`                                                                       | `...` |
+| 7 | `//arrives at barrier in round r+1`                                         | `...` |
+| 8 | `//increments counter`                                                      | `//still working on round r stuff` |
+| 9 | `//not all threads have arrived, but counter is now >n, so no need to wait` | `...` |
+| 10 | `//proceeds to do work in round r+1 before thread 2 has arrived`           | `...` |
+
 
 **S2.3** Minimality: what breaks if you do less, what it costs if you do more.
 
-REPLACE THIS LINE
+I think the solution is to use two turnstiles as detailed in LBS 3.7.
+
 
 ## S3 — the measurement · 30 marks
 
